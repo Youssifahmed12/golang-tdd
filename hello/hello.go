@@ -1,6 +1,9 @@
-package hello
+package main
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 const (
 	englishprfx = "Hello "
@@ -9,7 +12,7 @@ const (
 )
 
 func main() {
-
+	fmt.Println(hello("youssif", "english"))
 }
 
 func hello(name, lang string) string {
