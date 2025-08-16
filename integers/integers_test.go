@@ -1,18 +1,22 @@
 package integers
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestAdd(t *testing.T) {
 	t.Run("Adding Two Positive Numbers", func(t *testing.T) {
-		var (
-			num1 = 5
-			num2 = 9
-		)
-		want := 14
-		got := add(num1, num2)
-		if want != got {
-			t.Errorf("Wanted %b got %b", want, got)
+		sum := add(6, 8)
+		expected := 14
+		if sum != expected {
+			t.Errorf("Wanted %d got %d", expected, sum)
 		}
 	})
+}
 
+func Exampleadd() {
+	sum := add(5, 5)
+	fmt.Println(sum)
+	// Output: 10
 }

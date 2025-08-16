@@ -9,7 +9,7 @@ func TestHello(t *testing.T) {
 		assertCorrectGreeting(t, want, got)
 	})
 	t.Run("Spanish Hello Test with name", func(t *testing.T) {
-		want := "Hola Yosussif!"
+		want := "Hola Youssif!"
 		got := hello("Youssif", "Spanish")
 		assertCorrectGreeting(t, want, got)
 	})
