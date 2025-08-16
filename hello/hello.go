@@ -1,7 +1,6 @@
-package main
+package hello
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -11,11 +10,7 @@ const (
 	frenchPrfx  = "Bonjour "
 )
 
-func main() {
-	fmt.Println(hello("youssif", "english"))
-}
-
-func hello(name, lang string) string {
+func Hello(name, lang string) string {
 	return getLangPrefix(lang) + name + "!"
 }
 
