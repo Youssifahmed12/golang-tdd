@@ -1,4 +1,4 @@
-package main
+package hello
 
 import "testing"
 
@@ -24,4 +24,12 @@ func TestHello(t *testing.T) {
 			t.Errorf("wanted %q but got %q", want, got)
 		}
 	})
+	t.Run("Undefined Hello Test with name", func(t *testing.T) {
+		want := "Hello Youssif!"
+		got := hello("Youssif", "Zimbabwian")
+		if want != got {
+			t.Errorf("wanted %q but got %q", want, got)
+		}
+	})
+
 }
