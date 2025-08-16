@@ -7,3 +7,8 @@ func Sum(nums []int) int {
 	}
 	return sum
 }
+
+// the three dots is to say that this function can take a variable number of arguments
+func SumAll(nums ...[]int) []int {
+	return nil
+}
