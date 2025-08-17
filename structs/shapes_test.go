@@ -28,7 +28,7 @@ func TestArea(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := tt.shape.Area()
 			if got != tt.hasArea {
-				t.Errorf("got %g wanted %g", got, tt.hasArea)
+				t.Errorf("%#v got %g wanted %g", tt.shape, got, tt.hasArea)
 			}
 		})
 	}
