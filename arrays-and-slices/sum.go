@@ -20,7 +20,16 @@ func SumAll(nums ...[]int) []int {
 func SumAllTails(nums ...[]int) []int {
 	var sums []int
 	for _, n := range nums {
-		sums = append(sums, Sum(n[1:]))
+		switch len(n) {
+		case 0:
+			sums = append(sums, 0)
+			continue
+		case 1:
+			sums = append(sums, n[0])
+			continue
+		default:
+			sums = append(sums, Sum(n[1:]))
+		}
 	}
 	return sums
 }

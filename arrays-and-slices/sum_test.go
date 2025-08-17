@@ -45,4 +45,20 @@ func TestSumAllTails(t *testing.T) {
 			t.Errorf("got %v expected %v", sum, expected)
 		}
 	})
+	t.Run("safely sum empty tails", func(t *testing.T) {
+		sum := SumAllTails([]int{}, []int{2, 3, 0, 5, 6}, []int{9, 1, 0, 3})
+		expected := []int{0, 14, 4}
+		if !slices.Equal(sum, expected) {
+			t.Errorf("got %v expected %v", sum, expected)
+		}
+
+	})
+
+	t.Run("safelu sum one element slices", func(t *testing.T) {
+		sum := SumAllTails([]int{}, []int{1}, []int{4})
+		expected := []int{0, 1, 4}
+		if !slices.Equal(sum, expected) {
+			t.Errorf("got %v expected %v", sum, expected)
+		}
+	})
 }
