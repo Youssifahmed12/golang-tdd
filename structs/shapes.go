@@ -1,6 +1,8 @@
 package structs
 
-import "math"
+import (
+	"math"
+)
 
 type Shape interface {
 	Area() float64
@@ -22,10 +24,15 @@ func (c Circle) Area() float64 {
 	return math.Pi * c.Radius * c.Radius
 }
 
-func Perimeter(r Rectangle) float64 {
-	return 2 * (r.height + r.width)
+type Triangle struct {
+	base   float64
+	height float64
 }
 
-func Area(r Rectangle) float64 {
-	return r.height * r.width
+func (t Triangle) Area() float64 {
+	return 0.5 * t.base * t.height
+}
+
+func Perimeter(r Rectangle) float64 {
+	return 2 * (r.height + r.width)
 }
