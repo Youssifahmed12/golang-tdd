@@ -1,13 +1,16 @@
 package maps
 
-import "errors"
+const (
+	ErrWordDoesntExist = DictionaryError("word doesn't exist")
+	ErrWordExist       = DictionaryError("word exist")
+)
 
 type Dictionary map[string]string
+type DictionaryError string
 
-var (
-	ErrWordDoesntExist = errors.New("word doesn't exist")
-	ErrWordExist       = errors.New("word exist")
-)
+func (dr DictionaryError) Error() string {
+	return string(dr)
+}
 
 func (d Dictionary) Search(key string) (string, error) {
 	// ok will be a boolean , true if key is found false if isn't
