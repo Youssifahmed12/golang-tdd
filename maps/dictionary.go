@@ -4,7 +4,10 @@ import "errors"
 
 type Dictionary map[string]string
 
-var ErrWordDoesntExist = errors.New("word doesn't exist")
+var (
+	ErrWordDoesntExist = errors.New("word doesn't exist")
+	ErrWordExist       = errors.New("word exist")
+)
 
 func (d Dictionary) Search(key string) (string, error) {
 	// ok will be a boolean , true if key is found false if isn't
@@ -15,6 +18,15 @@ func (d Dictionary) Search(key string) (string, error) {
 	return definition, nil
 }
 
-func (d Dictionary) Add(word, wordDefintion string) {
-	d[word] = wordDefintion
+func (d Dictionary) Add(word, wordDefintion string) error {
+	_, err := d.Search(word)
+	switch err {
+	case ErrWordDoesntExist:
+		d[word] = wordDefintion
+	case nil:
+		return ErrWordExist
+	default:
+		return err
+	}
+	return nil
 }
