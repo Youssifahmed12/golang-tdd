@@ -10,5 +10,17 @@ func Sum(nums []int) int {
 
 // the three dots is to say that this function can take a variable number of arguments
 func SumAll(nums ...[]int) []int {
-	return nil
+	var sums []int
+	for _, num := range nums {
+		sums = append(sums, Sum(num))
+	}
+	return sums
+}
+
+func SumAllTails(nums ...[]int) []int {
+	var sums []int
+	for _, n := range nums {
+		sums = append(sums, Sum(n[1:]))
+	}
+	return sums
 }
