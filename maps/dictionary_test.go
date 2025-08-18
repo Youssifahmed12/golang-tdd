@@ -14,7 +14,7 @@ func TestSearch(t *testing.T) {
 	t.Run("find non existent string in dictionary", func(t *testing.T) {
 		dic := Dictionary{"nottest": "this is a test"}
 
-		want := ErrWordDoesntExist
+		want := ErrNotFound
 		_, got := dic.Search("test")
 		assertError(t, got, want)
 
@@ -62,7 +62,7 @@ func TestUpdate(t *testing.T) {
 		newDefinition := "a simple description"
 
 		err := dic.Update(word, newDefinition)
-		assertError(t, err, ErrWordDoesntExist)
+		assertError(t, err, ErrNotFound)
 	})
 
 }
