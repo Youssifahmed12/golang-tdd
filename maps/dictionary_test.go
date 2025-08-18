@@ -70,9 +70,13 @@ func TestUpdate(t *testing.T) {
 func TestDelete(t *testing.T) {
 	t.Run("Delete existing item", func(t *testing.T) {
 		dic := Dictionary{"word": "word definition"}
-		dic.Delete("word")
 
-		_, err := dic.Search("word")
+		err := dic.Delete("word")
+
+		assertError(t, err, nil)
+
+		_, err = dic.Search("word")
+
 		assertError(t, err, ErrNotFound)
 
 	})
