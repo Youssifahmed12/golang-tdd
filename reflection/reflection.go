@@ -5,12 +5,19 @@ import (
 )
 
 func walk(x interface{}, fn func(input string)) {
-	value := reflect.ValueOf(x)
-	for i := 0; i < value.NumField(); i++ {
-		field := value.Field(i)
+	val := reflect.ValueOf(x)
+	if val.Kind() == reflect.Pointer {
+		val = val.Elem()
+	}
 
-		if field.Kind() == reflect.String {
+	for i := 0; i < val.NumField(); i++ {
+		field := val.Field(i)
+
+		switch field.Kind() {
+		case reflect.String:
 			fn(field.String())
+		case reflect.Struct:
+			walk(field.Interface(), fn)
 		}
 	}
 }
