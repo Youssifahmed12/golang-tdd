@@ -49,3 +49,16 @@ func ConvertToArabic(roman string) int {
 
 	return arabic
 }
+func ConvertToArabicRecursive(roman string) int {
+	if roman == "" {
+		return 0
+	}
+
+	for _, numeral := range allRomanNumerals {
+		if strings.HasPrefix(roman, numeral.Symbol) {
+			return numeral.Value + ConvertToArabicRecursive(strings.TrimPrefix(roman, numeral.Symbol))
+		}
+	}
+
+	return 0
+}
