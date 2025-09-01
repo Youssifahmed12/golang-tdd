@@ -10,13 +10,30 @@ type Point struct {
 	Y float64
 }
 
-func secondsInRadians(t time.Time) float64 {
-	return (float64(t.Second()) / 30) * math.Pi
+// used int here bec the Minute / Second function returns an int
+func timeToRadain(t int) float64 {
+	return (float64(t) / 30) * math.Pi
 }
 
-func secondHandPoint(t time.Time) Point {
-	angle := secondsInRadians(t)
+func secondsInRadians(t time.Time) float64 {
+	return timeToRadain(t.Second())
+}
+
+func minutesInRadians(t time.Time) float64 {
+	return (secondsInRadians(t) / 60) +
+		timeToRadain(t.Minute())
+}
+
+func angleToPoint(angle float64) Point {
 	x := math.Sin(angle)
 	y := math.Cos(angle)
 	return Point{x, y}
+}
+
+func secondHandPoint(t time.Time) Point {
+	return angleToPoint(secondsInRadians(t))
+}
+
+func minuteHandPoint(t time.Time) Point {
+	return angleToPoint(minutesInRadians(t))
 }
