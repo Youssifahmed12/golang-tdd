@@ -1,16 +1,19 @@
 package blogrenderer
 
 import (
+	"bytes"
 	"embed"
 	"html/template"
 	"io"
+
+	"github.com/yuin/goldmark"
 )
 
 type Post struct {
 	Title       string
 	Description string
 	Tags        []string
-	Body        string
+	Body        template.HTML
 }
 
 type PostRenderer struct {
@@ -33,9 +36,23 @@ func NewPostRenderer() (*PostRenderer, error) {
 
 func (pr *PostRenderer) Render(w io.Writer, p Post) error {
 
+	htmlBody, err := markDownToHtml(string(p.Body))
+	if err != nil {
+		return err
+	}
+
+	p.Body = htmlBody
 	if err := pr.templ.ExecuteTemplate(w, "blog.gohtml", p); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func markDownToHtml(input string) (template.HTML, error) {
+	b := bytes.Buffer{}
+	if err := goldmark.Convert([]byte(input), &b); err != nil {
+		return "", err
+	}
+	return template.HTML(b.String()), nil
 }
