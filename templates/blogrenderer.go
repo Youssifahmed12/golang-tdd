@@ -26,6 +26,10 @@ var (
 	postTemplates embed.FS
 )
 
+func (p Post) SanitisedTitle() string {
+	return strings.ToLower(strings.Replace(p.Title, " ", "-", -1))
+}
+
 func NewPostRenderer() (*PostRenderer, error) {
 	templ, err := template.ParseFS(postTemplates, "templates/*.gohtml")
 	if err != nil {
@@ -43,30 +47,12 @@ func (pr *PostRenderer) Render(w io.Writer, p Post) error {
 	}
 
 	p.Body = htmlBody
-	if err := pr.templ.ExecuteTemplate(w, "blog.gohtml", p); err != nil {
-		return err
-	}
 
-	return nil
+	return pr.templ.ExecuteTemplate(w, "blog.gohtml", p)
 }
 
-func (r *PostRenderer) RenderIndex(w io.Writer, posts []Post) error {
-	indexTemplate := `<ol>{{range .}}<li><a href="/post/{{sanitiseTitle .Title}}">{{.Title}}</a></li>{{end}}</ol>`
-
-	templ, err := template.New("index").Funcs(template.FuncMap{
-		"sanitiseTitle": func(title string) string {
-			return strings.ToLower(strings.Replace(title, " ", "-", -1))
-		},
-	}).Parse(indexTemplate)
-	if err != nil {
-		return err
-	}
-
-	if err := templ.Execute(w, posts); err != nil {
-		return err
-	}
-
-	return nil
+func (pr *PostRenderer) RenderIndex(w io.Writer, posts []Post) error {
+	return pr.templ.ExecuteTemplate(w, "index.gohtml", posts)
 }
 
 func markDownToHtml(input string) (template.HTML, error) {
