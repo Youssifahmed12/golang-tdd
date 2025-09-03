@@ -35,6 +35,22 @@ Welcome to my **amazing blog**. I am going to write about my family recipes, and
 		approvals.VerifyString(t, b.String())
 	})
 
+	t.Run("it renders an index of posts", func(t *testing.T) {
+		b := bytes.Buffer{}
+		posts := []blogrenderer.Post{{Title: "Hello World"}, {Title: "Hello World2"}}
+
+		if err := pr.RenderIndex(&b, posts); err != nil {
+			t.Fatal(err)
+		}
+
+		want := `<ol><li><a href="/post/hello-world">Hello World</a></li><li><a href="/post/hello-world-2">Hello World 2</a></li></ol>`
+		got := b.String()
+
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+	})
+
 }
 func BenchmarkRender(b *testing.B) {
 	var (
