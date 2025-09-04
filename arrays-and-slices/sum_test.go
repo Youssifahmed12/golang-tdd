@@ -6,6 +6,24 @@ import (
 	"testing"
 )
 
+func TestReduce(t *testing.T) {
+	t.Run("multiplying using reduce", func(t *testing.T) {
+		multiply := func(result, number int) int {
+			return result * number
+		}
+
+		AssertEqual(t, Reduce([]int{1, 2, 3}, multiply, 1), 6)
+	})
+
+	t.Run("concatenate", func(t *testing.T) {
+		conc := func(result, number string) string {
+			return result + number
+		}
+
+		AssertEqual(t, Reduce([]string{"a", "b", "c"}, conc, ""), "abc")
+	})
+}
+
 func TestSum(t *testing.T) {
 	t.Run("sum slice of size 5 ", func(t *testing.T) {
 		numbers := []int{1, 6, 7, 5, 3}
@@ -61,4 +79,11 @@ func TestSumAllTails(t *testing.T) {
 		expected := []int{0, 1, 4}
 		checkSum(t, sum, expected)
 	})
+}
+
+func AssertEqual[T comparable](t *testing.T, got, want T) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %+v, want %+v", got, want)
+	}
 }
