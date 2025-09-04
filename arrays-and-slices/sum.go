@@ -1,35 +1,43 @@
 package main
 
 func Sum(nums []int) int {
-	sum := 0
-	for _, n := range nums {
-		sum += n
+	sum := func(x, y int) int {
+		return x + y
 	}
-	return sum
+
+	return Reduce(nums, sum, 0)
 }
 
 // the three dots is to say that this function can take a variable number of arguments
 func SumAll(nums ...[]int) []int {
-	var sums []int
-	for _, num := range nums {
-		sums = append(sums, Sum(num))
+	sumAll := func(sum, num []int) []int {
+		return append(sum, Sum(num))
 	}
-	return sums
+
+	return Reduce(nums, sumAll, []int{})
 }
 
 func SumAllTails(nums ...[]int) []int {
-	var sums []int
-	for _, n := range nums {
-		switch len(n) {
+	sumTails := func(sums, num []int) []int {
+		switch len(num) {
 		case 0:
 			sums = append(sums, 0)
-			continue
 		case 1:
-			sums = append(sums, n[0])
-			continue
+			sums = append(sums, num[0])
 		default:
-			sums = append(sums, Sum(n[1:]))
+			sums = append(sums, Sum(num[1:]))
 		}
+		return sums
 	}
-	return sums
+
+	return Reduce(nums, sumTails, []int{})
+
+}
+
+func Reduce[A any](collection []A, f func(A, A) A, intialValue A) A {
+	var result = intialValue
+	for _, x := range collection {
+		result = f(result, x)
+	}
+	return result
 }
